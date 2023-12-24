@@ -28,9 +28,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "waveplayer.h"
-#include "File_Handling.h"
-
+#include <App.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -64,28 +62,6 @@ void MX_USB_HOST_Process(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-extern ApplicationTypeDef Appli_state;
-extern AUDIO_PLAYBACK_StateTypeDef AudioState;
-
-int IsFinished = 0;
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	if (GPIO_Pin == GPIO_PIN_0)
-	{
-		AudioState = AUDIO_STATE_NEXT;
-//		if (AudioState == AUDIO_STATE_PLAY)
-//		{
-//			AudioState = AUDIO_STATE_PAUSE;
-//		}
-//
-//		if (AudioState == AUDIO_STATE_WAIT)
-//		{
-//			AudioState = AUDIO_STATE_RESUME;
-//		}
-	}
-}
 
 /* USER CODE END 0 */
 
@@ -137,22 +113,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-    // Mount the USB for Audio
-    if (Appli_state == APPLICATION_READY)
-        {
-        	Mount_USB();
-        	AUDIO_PLAYER_Start(0);
-
-        	while (!IsFinished)
-        	{
-        		AUDIO_PLAYER_Process(TRUE);
-
-        		if (AudioState == AUDIO_STATE_STOP)
-        		{
-        			IsFinished = 1;
-        		}
-        	}
-        }
+    app_main();
   }
   /* USER CODE END 3 */
 }
@@ -194,7 +155,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
   {

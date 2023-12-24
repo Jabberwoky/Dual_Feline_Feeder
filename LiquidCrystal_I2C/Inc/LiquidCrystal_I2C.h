@@ -51,8 +51,13 @@
 #define Rs 0b00000001  // Register select bit
 
 // Booleans
-#define TRUE 1
-#define FALSE 0
+#ifndef TRUE
+#define TRUE 1U
+#endif
+
+#ifndef FALSE
+#define FALSE 0U
+#endif
 
 typedef struct {
 	uint8_t _Addr;
